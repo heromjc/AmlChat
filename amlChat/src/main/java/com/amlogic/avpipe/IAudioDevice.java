@@ -59,7 +59,7 @@ public interface IAudioDevice {
     /**
 	 * Set the buffer sized used with the device.
 	 *
-	 * @param info
+	 * @param bufferSize
 	 * @return
 	 */
     public int setBufferSize(int bufferSize);

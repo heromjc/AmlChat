@@ -453,7 +453,7 @@ public class VideoPlayerActivity extends Activity implements
 			Log.e(TAG,"can't write the " + path);
 		}
 	}
-/*
+
 	public int getPropBitrate(int w) {
 		int bitrate = 0;
 		if (w <= 512) {
@@ -471,7 +471,7 @@ public class VideoPlayerActivity extends Activity implements
 		}
 		return bitrate;
 	}
-*/
+
 	public void onEncodedFrame(MediaCodec.BufferInfo info)
 	{
 		if (mVideoInput.read(new ReadRequest(mVideoBuffer)) > 0)
@@ -568,7 +568,7 @@ public class VideoPlayerActivity extends Activity implements
 					{
 						mVideoFormatInfo.setWidth(fmts[item].width);
 						mVideoFormatInfo.setHeight(fmts[item].height);
-						//mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
+						mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
 						startVideo();
 						startChatAudio();
 						mVideoResDialog.dismiss();
@@ -653,7 +653,7 @@ public class VideoPlayerActivity extends Activity implements
 //					if (showStats == null || showStats.equals(""))
 //						return;
 					addLineToStats("Time Statistics (camera / encoder / decoder / total):");
-					addLineToStats("First Frame Delay = "
+/*					addLineToStats("First Frame Delay = "
 							+ Integer.toString(getStartupLatencyCam()) + "ms"
 							+ " / "
 							+ Integer.toString(getStartupLatencyCapture())
@@ -662,6 +662,7 @@ public class VideoPlayerActivity extends Activity implements
 							+ "ms" + " / "
 							+ Integer.toString(getStartupLatencyPlayback())
 							+ "ms");
+*/
 					addLineToStats("Average Latency = " + "NA" + " / "
 							+ Integer.toString(getAverageLatencyCapture())
 							+ "ms" + " / "

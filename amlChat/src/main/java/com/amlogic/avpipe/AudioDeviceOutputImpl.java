@@ -113,7 +113,7 @@ public class AudioDeviceOutputImpl implements IAudioDevice
      * The JNI layer will call this method for sending audio data to here for
      * playing
      *
-     * @param buf
+     * @param audioBuffer
      *            data container
      * @return
      */
