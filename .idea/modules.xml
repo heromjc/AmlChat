@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/amlChat/amlChat.iml" filepath="$PROJECT_DIR$/amlChat/amlChat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amlchat1.iml" filepath="$PROJECT_DIR$/amlchat1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/avpipe/avpipe.iml" filepath="$PROJECT_DIR$/avpipe/avpipe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/httpclient-4.2.5/httpclient-4.2.5.iml" filepath="$PROJECT_DIR$/httpclient-4.2.5/httpclient-4.2.5.iml" />
+    </modules>
+  </component>
+</project>

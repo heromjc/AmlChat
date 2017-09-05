@@ -1,0 +1,76 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From AmlChat:
+* .gitignore
+* Android.mk
+* README.md
+* build.xml
+* proguard-project.txt
+From avpipe:
+* AVSync.class
+* AVTypes$EncoderOptimizations.class
+* AVTypes$VideoFmt.class
+* AVTypes.class
+* AudioDeviceInputImpl$1.class
+* AudioDeviceInputImpl.class
+* AudioDeviceOutputImpl$1.class
+* AudioDeviceOutputImpl.class
+* AudioFormatInfo.class
+* CameraInstance$CameraPreviewCallback.class
+* CameraInstance.class
+* DataBean.class
+* DevInfo.class
+* EncodeSettings.class
+* IAudioDevice.class
+* IVideoDevice$IVideoDeviceCallback.class
+* IVideoDevice.class
+* LocalAudioLoopThread.class
+* MediaPlayerWrapper$1.class
+* MediaPlayerWrapper.class
+* OnVideoFormatChange.class
+* ReadRequest.class
+* SystemPropUtil.class
+* VideoCapture$VideoEncodeSync.class
+* VideoCapture.class
+* VideoDeviceInputImpl$1.class
+* VideoDeviceInputImpl$2.class
+* VideoDeviceInputImpl$EncodedFrameListener.class
+* VideoDeviceInputImpl.class
+* VideoDeviceOutputImpl$1.class
+* VideoDeviceOutputImpl$DecodeTag.class
+* VideoDeviceOutputImpl.class
+* VideoFormatInfo.class
+* VideoPreviewInfo.class
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => amlChat\src\main\AndroidManifest.xml
+* assets\ => amlChat\src\main\assets
+* libs\exoplayerlib.jar => amlChat\libs\exoplayerlib.jar
+* res\ => amlChat\src\main\res\
+* src\ => amlChat\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="exoplayerlib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/amlChat/libs/exoplayerlib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

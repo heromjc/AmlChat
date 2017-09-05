@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Encoderfps">
+        <item>30</item>
+        <item>25</item>
+        <item>20</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="SendBitRate">
+        <item>128</item>
+        <item>256</item>
+        <item>384</item>
+        <item>512</item>
+        <item>768</item>
+        <item>1024</item>
+        <item>-1</item>
+    </string-array>
+    <string-array name="CodecType">
+        <item>cbr</item>
+        <item>vbr</item>
+    </string-array>
+</resources>

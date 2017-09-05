@@ -1,0 +1,18 @@
+#Internal package file, do not edit.
+#Tue Aug 15 20:31:02 CST 2017
+1.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+4.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\resources.arsc
+1.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-hdpi-v4\\ic_launcher.png
+4.set=ANDROID_RESOURCE
+2.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+3.set=ANDROID_RESOURCE
+2.set=ANDROID_RESOURCE
+2.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\AndroidManifest.xml
+count=5
+1.set=ANDROID_RESOURCE
+3.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+0.set=ANDROID_RESOURCE
+0.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+3.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\layout\\developer_options_encoder_optimizations.xml
+0.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\layout\\main.xml
+4.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_

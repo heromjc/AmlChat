@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/settings_fragments"
+    android:background="@color/settings_row_background">
+
+    <RelativeLayout
+        android:id="@+id/rlDummy"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <ScrollView
+        android:id="@+id/scrollViewOptimizations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/rlOptimizationBack"
+            style="@style/settings_row"
+            android:layout_width="match_parent" >
+
+            <TextView
+                android:id="@+id/tvOptimizationBack"
+                style="@style/settings_row"
+                android:text="@string/Save"
+                android:textColor="@color/settings_default"
+                android:textStyle="bold"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|center_horizontal" />
+        </RelativeLayout>
+
+        <View style="@style/settings_divider"></View>
+
+        <RelativeLayout
+            android:id="@+id/rlOptimizationEncoderBitrate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/settings_row"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tvOptimizationEncoderBitrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                style="@style/settings_textview"
+                android:textColor="@color/settings_default"
+                android:text="@string/EB"
+                android:layout_centerVertical="true" />
+
+            <CheckBox
+                android:id="@+id/cbOptimizationEncoderBitrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="false"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:checked="false"
+                android:scaleX="0.70"
+                android:scaleY="0.70"
+                android:text="@string/Enable" />
+
+            <EditText
+                android:id="@+id/etOptimizationEncoderBitrate"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:editable="false"
+                android:enabled="true"
+                android:gravity="center_vertical"
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:layout_alignBaseline="@+id/bOptimizationEncoderBitrate"
+                android:layout_alignBottom="@+id/bOptimizationEncoderBitrate"
+                android:layout_toLeftOf="@+id/cbOptimizationEncoderBitrate" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Set_Now"
+                android:id="@+id/bOptimizationEncoderBitrate"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/etOptimizationEncoderBitrate"
+                android:layout_toStartOf="@+id/etOptimizationEncoderBitrate"
+                android:clickable="true"
+                style="@android:style/TextAppearance.DeviceDefault.Widget.Button" />
+        </RelativeLayout>
+
+        <View style="@style/settings_divider"></View>
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutIframeInterval"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/settings_row"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tviframeInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/I_frame_Interval"
+                android:textSize="@dimen/font_size_settings"
+                android:textColor="@color/settings_default"
+                android:layout_centerVertical="true"/>
+
+            <CheckBox
+                android:id="@+id/cbOptimizationIframe_Interval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="false"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:checked="false"
+                android:scaleX="0.70"
+                android:scaleY="0.70"
+                android:text="@string/Enable" />
+
+            <EditText
+                android:id="@+id/etOptimizationiframeInterval"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/cbOptimizationIframe_Interval"
+                android:layout_alignBaseline="@+id/bIframeintervalIframeInterval"
+                android:layout_alignBottom="@+id/bIframeintervalIframeInterval"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/bIframeintervalIframeInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/etOptimizationiframeInterval"
+                android:text="@string/Set_Now"
+                android:clickable="true"
+                style="@android:style/TextAppearance.DeviceDefault.Widget.Button"/>
+
+        </RelativeLayout>
+
+        <View style="@style/settings_divider"></View>
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutEncoderFrameRate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/settings_row"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/FramerateList"
+                style="@style/settings_textview"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:text="@string/EF"
+                android:textColor="@color/settings_default" />
+            <Spinner
+                android:entries="@array/Encoderfps"
+                android:id="@+id/spinnerFramerate"
+                android:layout_toRightOf="@+id/FramerateList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

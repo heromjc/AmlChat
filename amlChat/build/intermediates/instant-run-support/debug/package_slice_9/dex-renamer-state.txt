@@ -1,0 +1,4 @@
+#Mon Aug 21 15:04:28 CST 2017
+base.0=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_9
+renamed.0=classes.dex
+file.0=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_9\\classes.dex

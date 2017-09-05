@@ -1,0 +1,10 @@
+#Tue Aug 15 20:24:55 CST 2017
+renamed.2=classes.dex
+renamed.1=classes2.dex
+renamed.0=classes3.dex
+base.2=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-annotations-26.0.0-alpha1_6cbcb4dbdb4fb314e120128dca7f4509c41fdd45
+base.1=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\2\\exoplayerlib_d4aecbe4356e3348aa37435bd7d3e94804f30efe
+base.0=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\2\\httpclient-4.2.5_80fe8d2e567de611ab2467d676e472f039fe47ca
+file.2=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-annotations-26.0.0-alpha1_6cbcb4dbdb4fb314e120128dca7f4509c41fdd45\\classes.dex
+file.1=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\2\\exoplayerlib_d4aecbe4356e3348aa37435bd7d3e94804f30efe\\classes.dex
+file.0=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\2\\httpclient-4.2.5_80fe8d2e567de611ab2467d676e472f039fe47ca\\classes.dex

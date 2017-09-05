@@ -1,0 +1,33 @@
+#Internal package file, do not edit.
+#Mon Aug 21 18:42:06 CST 2017
+2.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\mergeJavaRes\\debug\\jars\\2\\1f\\main.jar
+5.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\AndroidManifest.xml
+5.set=ANDROID_RESOURCE
+3.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
+6.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\layout\\developer_options_encoder_optimizations.xml
+2.set=JAVA_RESOURCE
+4.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+7.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\resources.arsc
+7.set=ANDROID_RESOURCE
+count=10
+0.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\layout\\main.xml
+5.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+8.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-xhdpi-v4\\ic_launcher.png
+4.set=ANDROID_RESOURCE
+6.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+1.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-ldpi-v4\\ic_launcher.png
+9.set=ANDROID_RESOURCE
+9.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-mdpi-v4\\ic_launcher.png
+1.set=ANDROID_RESOURCE
+7.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+2.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\mergeJavaRes\\debug\\jars\\2\\1f\\main.jar\\org\\apache\\http\\client\\version.properties
+6.set=ANDROID_RESOURCE
+0.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+8.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+3.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex
+3.set=DEX
+1.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+9.base=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_
+4.file=C\:\\Users\\jiacheng.mei\\Desktop\\amlchat_framerate2\\amlchat1\\amlChat\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-hdpi-v4\\ic_launcher.png
+8.set=ANDROID_RESOURCE
+0.set=ANDROID_RESOURCE
