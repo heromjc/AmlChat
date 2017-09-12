@@ -228,6 +228,7 @@ public class EncoderOptimizationsDialog extends DialogFragment implements OnClic
             btIframeIntv.setVisibility(cbEncoderIframeInterval.isChecked() ? View.VISIBLE : View.GONE);
             break;
         default:
+            storeEncoderOptimizations();
             break;
         }
     }

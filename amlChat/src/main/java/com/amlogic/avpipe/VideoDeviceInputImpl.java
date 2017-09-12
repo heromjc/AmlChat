@@ -124,6 +124,7 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
 
         mVideoFormatInfo.setWidth((mVideoFormatInfo.getWidth() + 15) / 16 * 16);
         mVideoFormatInfo.setHeight(/*(*/mVideoFormatInfo.getHeight() /*+ 15) / 16 * 16*/);
+        mVideoFormatInfo.setBitRate(mVideoFormatInfo.getBitRate());
 
         if (VideoCapture.Instance().isStarted()) {
             VideoCapture.Instance().stop();
@@ -156,10 +157,10 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
 
         /* if the bitrate was adjusted between call start and encoder start time adjust it now
          * to maintain mocha settings. */
-        if (mVideoFormatInfo.getBitRate() != (mEncoderBitrateKbps * 1000)) {
+/*        if (mVideoFormatInfo.getBitRate() != (mEncoderBitrateKbps * 1000)) {
             setBitrate(mEncoderBitrateKbps);
         }
-
+*/
         feedCameraFramesToEncoder();
         gatherEncodedFrames();
 

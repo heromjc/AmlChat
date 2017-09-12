@@ -57,6 +57,7 @@ public class VideoPlayerActivity extends Activity implements
 	private static int FRAME_THROUGHPUT_INTERVAL = 60;
 	private static boolean USE_SW_ENCODER = false;
 	private static final boolean ENCODER_ONLY = false;
+	private static boolean isIPTV = true;
 
 	private VideoFormatInfo mVideoFormatInfo;
 	private VideoDeviceInputImpl mVideoInput;
@@ -73,10 +74,16 @@ public class VideoPlayerActivity extends Activity implements
 
 	private static String mKeep_mode_threshold = "/sys/class/thermal/thermal_zone0/keep_mode_threshold";
 	private static String mTrip_point_0_temp = "/sys/class/thermal/thermal_zone0/trip_point_0_temp";
+	private static String mGpu_scale_mode = "/sys/class/mpgpu/scale_mode";
+	private static String mGpu_cur_freq = "/sys/class/mpgpu/cur_freq";
 	private String mMaxTemp_Org = null;
 	private String mMinTemp_Org = null;
 	private static String mSetMaxTemp = "110";
 	private static String mSetMinTemp = "100";
+
+	private String mScale_mode_Org = null;
+	private static String mScale_mode_val = "2";
+	private static String mCur_freq_val = "1";
 
 	private FileOutputStream mEncoderCaptureStream;
 
@@ -158,18 +165,13 @@ public class VideoPlayerActivity extends Activity implements
 		{
 		mVideoOutput = new VideoDeviceOutputImpl();
 		mVideoOutput.setCallback(new VideoCallback(false));
-	}
+		}
 
 		mVideoBuffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
 
 		// either or, one of these next routines will feed the decoder.
 		mVideoInput.setEncodedFrameListener(this);
 		// runVideoThread()
-
-		mMaxTemp_Org = getString(mKeep_mode_threshold);
-		mMinTemp_Org = getString(mTrip_point_0_temp);
-		setString(mKeep_mode_threshold, mSetMaxTemp);
-		setString(mTrip_point_0_temp,mSetMinTemp);
 
 		loadResources();
 		mAudioLoop = new LocalAudioLoopThread();
@@ -432,6 +434,7 @@ public class VideoPlayerActivity extends Activity implements
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(path));
 			prop = reader.readLine();
+			Log.e("TAG","getString " + path + " == " + prop);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -447,17 +450,17 @@ public class VideoPlayerActivity extends Activity implements
 			bufWriter = new BufferedWriter(new FileWriter(path));
 			bufWriter.write(value);
 			bufWriter.close();
-			Log.d(TAG,"set value " + getString(path) + "to path" + path);
+			Log.d(TAG,"setString " + value + " to path " + path);
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.e(TAG,"can't write the " + path);
 		}
 	}
-
+/*
 	public int getPropBitrate(int w) {
 		int bitrate = 0;
 		if (w <= 512) {
-			bitrate = 1024000;
+			bitrate = 1000000;
 		} else if (w <= 640) {
 			bitrate = 1500000;
 		} else if (w <= 960) {
@@ -471,7 +474,7 @@ public class VideoPlayerActivity extends Activity implements
 		}
 		return bitrate;
 	}
-
+*/
 	public void onEncodedFrame(MediaCodec.BufferInfo info)
 	{
 		if (mVideoInput.read(new ReadRequest(mVideoBuffer)) > 0)
@@ -568,7 +571,7 @@ public class VideoPlayerActivity extends Activity implements
 					{
 						mVideoFormatInfo.setWidth(fmts[item].width);
 						mVideoFormatInfo.setHeight(fmts[item].height);
-						mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
+						//mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
 						startVideo();
 						startChatAudio();
 						mVideoResDialog.dismiss();
@@ -584,6 +587,19 @@ public class VideoPlayerActivity extends Activity implements
 		mPreviewSfc.setVisibility(View.VISIBLE);
 
 		startLatencyTracking();
+
+		if(isIPTV && (mVideoFormatInfo.getWidth() >= 1920)) {
+			mMaxTemp_Org = getString(mKeep_mode_threshold);
+			mMinTemp_Org = getString(mTrip_point_0_temp);
+			mScale_mode_Org = getString(mGpu_scale_mode);
+			Log.e(TAG, "maxTemp = " + mMaxTemp_Org + ";" + "minTemp = " + mMinTemp_Org);
+			setString(mGpu_scale_mode,mScale_mode_val);
+			setString(mKeep_mode_threshold, mSetMaxTemp);
+			setString(mTrip_point_0_temp, mSetMinTemp);
+			if(getString(mGpu_scale_mode).equals(mScale_mode_val)) {
+				setString(mGpu_cur_freq, mCur_freq_val);
+			}
+		}
 
 		if (!ENCODER_ONLY)
 		{
@@ -627,9 +643,11 @@ public class VideoPlayerActivity extends Activity implements
 
 		mDecodeSfc.setVisibility(View.INVISIBLE);
 		mPreviewSfc.setVisibility(View.INVISIBLE);
-
-		setString(mKeep_mode_threshold, mMaxTemp_Org);
-		setString(mTrip_point_0_temp,mMinTemp_Org);
+		if(isIPTV && (mVideoFormatInfo.getWidth() >= 1920)) {
+			setString(mKeep_mode_threshold, mMaxTemp_Org);
+			setString(mTrip_point_0_temp, mMinTemp_Org);
+			setString(mGpu_scale_mode,mScale_mode_Org);
+		}
 	}
 
 	private void updateStats()
