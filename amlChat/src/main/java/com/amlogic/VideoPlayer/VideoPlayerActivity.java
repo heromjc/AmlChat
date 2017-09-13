@@ -419,7 +419,10 @@ public class VideoPlayerActivity extends Activity implements
 						mVideoFormatInfo.setMimeType(video_avc);
 					if (mRadioButton2.isChecked())
 						mVideoFormatInfo.setMimeType(video_hevc);
-					showResolutionOptions();
+					if(isIPTV)
+						showResolutionOptions_iptv();
+					else
+						showResolutionOptions();
 				}
 				updateStats();
 			}
@@ -571,6 +574,86 @@ public class VideoPlayerActivity extends Activity implements
 					{
 						mVideoFormatInfo.setWidth(fmts[item].width);
 						mVideoFormatInfo.setHeight(fmts[item].height);
+						//mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
+						startVideo();
+						startChatAudio();
+						mVideoResDialog.dismiss();
+					}
+				});
+		mVideoResDialog = builder.create();
+		mVideoResDialog.show();
+	}
+
+	private void showResolutionOptions_iptv()
+	{
+		String text = "请检查是否有camera插入";
+		if (VideoCapture.Instance().openCamera(true) == false) {
+			Toast.makeText(getApplicationContext(), text,
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+		mStartStopButton.setText("Stop");
+		final AVTypes.VideoFmt[] fmts = VideoCapture.Instance()
+				.getSupportedFormats();
+		int index = 0;
+		for (int i = 0; i < fmts.length; ++i)
+		{
+			if(fmts[i].width == 1920 && fmts[i].height == 1080)
+				index = index + 1;
+			if(fmts[i].width == 1280 && fmts[i].height == 720)
+				index = index + 1;
+			if(fmts[i].width == 640 && fmts[i].height == 480)
+				index = index + 1;
+			if(fmts[i].width == 320 && fmts[i].height == 240)
+				index = index + 1;
+		}
+
+		CharSequence[] videoResItems = new CharSequence[index];
+		final int[] index_eq = new int[index];
+		int kk = 0;
+		for (int i = 0; i < fmts.length; ++i)
+		{
+			if(fmts[i].width == 1920 && fmts[i].height == 1080) {
+				videoResItems[kk] = Integer.toString(fmts[i].width) + "x"
+						+ Integer.toString(fmts[i].height);
+				index_eq[kk] = i;
+				if(kk<index)
+					kk = kk + 1;
+			}
+			if(fmts[i].width == 1280 && fmts[i].height == 720) {
+				videoResItems[kk] = Integer.toString(fmts[i].width) + "x"
+						+ Integer.toString(fmts[i].height);
+				index_eq[kk] = i;
+				if(kk<index)
+					kk = kk + 1;
+			}
+			if(fmts[i].width == 640 && fmts[i].height == 480) {
+				videoResItems[kk] = Integer.toString(fmts[i].width) + "x"
+						+ Integer.toString(fmts[i].height);
+				index_eq[kk] = i;
+				if(kk<index)
+					kk = kk + 1;
+			}
+			if(fmts[i].width == 320 && fmts[i].height == 240) {
+				videoResItems[kk] = Integer.toString(fmts[i].width) + "x"
+						+ Integer.toString(fmts[i].height);
+				index_eq[kk] = i;
+				if(kk<index)
+					kk = kk + 1;
+			}
+		}
+
+		// Creating and Building the Dialog
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Select Video Resolution");
+		builder.setCancelable(false);
+		builder.setSingleChoiceItems(videoResItems, -1,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int item)
+					{
+						mVideoFormatInfo.setWidth(fmts[index_eq[item]].width);
+						mVideoFormatInfo.setHeight(fmts[index_eq[item]].height);
 						//mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
 						startVideo();
 						startChatAudio();
