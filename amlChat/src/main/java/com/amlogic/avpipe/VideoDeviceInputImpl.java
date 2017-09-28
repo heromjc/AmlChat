@@ -59,7 +59,7 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
     private FileOutputStream fos;
     private EncodeSettings mEncodeSettings;
     private IVideoDeviceCallback mVideoDeviceCb;
-    private int mEncoderBitrateKbps = 3000;
+    private int mEncoderBitrateKbps = 4000;
     private boolean mSoftEncode = false;
     private EncodedFrameListener mEncodedFrameListener;
     private EncoderOptimizations mEncoderOptimizations = new EncoderOptimizations();
@@ -124,7 +124,7 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
 
         mVideoFormatInfo.setWidth((mVideoFormatInfo.getWidth() + 15) / 16 * 16);
         mVideoFormatInfo.setHeight(/*(*/mVideoFormatInfo.getHeight() /*+ 15) / 16 * 16*/);
-        mVideoFormatInfo.setBitRate(mVideoFormatInfo.getBitRate());
+        //mVideoFormatInfo.setBitRate(mVideoFormatInfo.getBitRate());
 
         if (VideoCapture.Instance().isStarted()) {
             VideoCapture.Instance().stop();

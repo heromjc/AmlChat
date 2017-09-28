@@ -36,7 +36,7 @@ public class VideoFormatInfo {
 	/**
 	 * video bit rate
 	 */
-	private int bitRate = 2000000;
+	private int bitRate = 4000000;
 
 	/**
 	 * key frame,default is 1 frame per 30 seconds

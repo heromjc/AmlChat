@@ -28,7 +28,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.io.IOException;
@@ -46,7 +48,7 @@ import com.amlogic.avpipe.VideoCapture;
 import com.amlogic.avpipe.VideoDeviceInputImpl;
 import com.amlogic.avpipe.VideoDeviceOutputImpl;
 import com.amlogic.avpipe.VideoFormatInfo;
-
+import android.os.SystemProperties;
 import android.app.FragmentManager;
 
 public class VideoPlayerActivity extends Activity implements
@@ -69,18 +71,20 @@ public class VideoPlayerActivity extends Activity implements
 	private boolean mDebug = false;
 
 	private boolean mEncoderCapturing = false;
-	private String mEncoderCaptureFilename = "/sdcard/encoder_capture.mpg";
-	private String mEncoderCaptureFilename_ext = "/storage/external_storage/sda1/encoder_capture.mpg";
+	private String mEncoderCaptureFilename = "/sdcard/encoder_capture.ts";
+	private String mEncoderCaptureFilename_ext = null;
 
 	private static String mKeep_mode_threshold = "/sys/class/thermal/thermal_zone0/keep_mode_threshold";
 	private static String mTrip_point_0_temp = "/sys/class/thermal/thermal_zone0/trip_point_0_temp";
+	private static String mScaling_max_freq = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
 	private static String mGpu_scale_mode = "/sys/class/mpgpu/scale_mode";
 	private static String mGpu_cur_freq = "/sys/class/mpgpu/cur_freq";
 	private String mMaxTemp_Org = null;
 	private String mMinTemp_Org = null;
+	private String mCpu_max_freq_Org = null;
 	private static String mSetMaxTemp = "110";
 	private static String mSetMinTemp = "100";
-
+	private static String mSetMaxFreq = "1000000";
 	private String mScale_mode_Org = null;
 	private static String mScale_mode_val = "2";
 	private static String mCur_freq_val = "1";
@@ -172,7 +176,7 @@ public class VideoPlayerActivity extends Activity implements
 		// either or, one of these next routines will feed the decoder.
 		mVideoInput.setEncodedFrameListener(this);
 		// runVideoThread()
-
+		SystemProperties.set("amlchat.status.enable", "disable");
 		loadResources();
 		mAudioLoop = new LocalAudioLoopThread();
 
@@ -295,8 +299,15 @@ public class VideoPlayerActivity extends Activity implements
 		mDecodeSfc = (SurfaceView) findViewById(R.id.videoOutput);
 		mPreviewSfc = (SurfaceView) findViewById(R.id.videoInput);
 		mSwEncodeCheckBox = (CheckBox) findViewById(R.id.cbUseSoftEnc);
-
+		if (isIPTV) {
+			mSwEncodeCheckBox.setEnabled(false);
+			mSwEncodeCheckBox.setVisibility(View.GONE);
+		}
 		mRequestIdr = (Button) findViewById(R.id.btRequestidr);
+		if(isIPTV) {
+			mRequestIdr.setEnabled(false);
+			mRequestIdr.setVisibility(View.GONE);
+		}
 		mRequestIdr.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -316,15 +327,22 @@ public class VideoPlayerActivity extends Activity implements
 				if (mEncoderCapturing)
 				{
 					mEncoderCaptureButton.setText("Capturing..");
-					if (mRadioButton1.isChecked()) {
-						mEncoderCaptureFilename = "/sdcard/encoder_capture.h264";
-						mEncoderCaptureFilename_ext = "/storage/external_storage/sda1/encoder_capture.h264";
-					} else if (mRadioButton2.isChecked()) {
-						mEncoderCaptureFilename = "/sdcard/encoder_capture.h265";
-						mEncoderCaptureFilename_ext = "/storage/external_storage/sda1/encoder_capture.h265";
+					mEncoderCaptureFilename_ext = null;
+					mEncoderCaptureFilename = "/sdcard/encoder_capture.ts";
+					List<String> sd_path = new ArrayList<String>();
+					sd_path = loadDir();
+					if(!sd_path.isEmpty()) {
+						mEncoderCaptureFilename_ext = sd_path.get(0);
 					}
-					if(ext_dir.exists()) {
+					//mEncoderCaptureFilename_ext = "/storage/external_storage/sda1/Video/encoder_capture.ts";
+
+					if(mEncoderCaptureFilename_ext != null) {
 						Log.e("TAG", "Exist SdCard");
+						File ext_dir_video = new File(mEncoderCaptureFilename_ext + "/Video/");
+						if(!ext_dir_video.exists()) {
+							ext_dir_video.mkdir();
+						}
+						mEncoderCaptureFilename_ext = mEncoderCaptureFilename_ext + "/Video/encoder_capture.ts";
 						mEncoderCaptureFilename = mEncoderCaptureFilename_ext;
 					}
 					String text = "write file to " + mEncoderCaptureFilename;
@@ -356,6 +374,10 @@ public class VideoPlayerActivity extends Activity implements
 		});
 
 		mDebugLogBtn = (Button) findViewById(R.id.debugBtn);
+		if(isIPTV) {
+			mDebugLogBtn.setEnabled(false);
+			mDebugLogBtn.setVisibility(View.GONE);
+		}
 		mDebugLogBtn.setText("Start Logging");
 		mDebugLogBtn.setOnClickListener(new View.OnClickListener()
 		{
@@ -611,7 +633,7 @@ public class VideoPlayerActivity extends Activity implements
 		CharSequence[] videoResItems = new CharSequence[index];
 		final int[] index_eq = new int[index];
 		int kk = 0;
-		for (int i = 0; i < fmts.length; ++i)
+		for (int i = fmts.length - 1; i >= 0 ; --i)
 		{
 			if(fmts[i].width == 1920 && fmts[i].height == 1080) {
 				videoResItems[kk] = Integer.toString(fmts[i].width) + "x"
@@ -675,10 +697,12 @@ public class VideoPlayerActivity extends Activity implements
 			mMaxTemp_Org = getString(mKeep_mode_threshold);
 			mMinTemp_Org = getString(mTrip_point_0_temp);
 			mScale_mode_Org = getString(mGpu_scale_mode);
+			mCpu_max_freq_Org = getString(mScaling_max_freq);
 			Log.e(TAG, "maxTemp = " + mMaxTemp_Org + ";" + "minTemp = " + mMinTemp_Org);
 			setString(mGpu_scale_mode,mScale_mode_val);
 			setString(mKeep_mode_threshold, mSetMaxTemp);
 			setString(mTrip_point_0_temp, mSetMinTemp);
+			setString(mScaling_max_freq,mSetMaxFreq);
 			if(getString(mGpu_scale_mode).equals(mScale_mode_val)) {
 				setString(mGpu_cur_freq, mCur_freq_val);
 			}
@@ -729,19 +753,21 @@ public class VideoPlayerActivity extends Activity implements
 		if(isIPTV && (mVideoFormatInfo.getWidth() >= 1920)) {
 			setString(mKeep_mode_threshold, mMaxTemp_Org);
 			setString(mTrip_point_0_temp, mMinTemp_Org);
+			setString(mScaling_max_freq, mCpu_max_freq_Org);
 			setString(mGpu_scale_mode,mScale_mode_Org);
 		}
 	}
 
 	private void updateStats()
 	{
+		final String isShowStatus= SystemProperties.get("amlchat.status.enable");
 		runOnUiThread(new Runnable()
 		{
 			public void run()
 			{
 				mStatsFrame.removeAllViews();
-				if (mIsStarted)
-				{
+				if (mIsStarted) {
+					if (isShowStatus.equals("enable")) {
 					String videoFormat = Integer.toString(mVideoFormatInfo
 							.getWidth())
 							+ "x"
@@ -780,6 +806,7 @@ public class VideoPlayerActivity extends Activity implements
 					addLineToStats("real_Time_BitrateEnc = " + Integer.toString(getBitrate()) + "Kb/s");
 					addLineToStats("Avg_BitrateEnc = " + Integer.toString(getBitrate_Avg()) + "Kb/s");
 				}
+				}
 			}
 		});
 	}
@@ -799,12 +826,40 @@ public class VideoPlayerActivity extends Activity implements
 		public long nanoTimeStartDec;
 	}
 
-	private boolean ExistSDCard() {
-		if (android.os.Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED)) {
-			return true;
-		} else
-			return false;
+	private List<String> loadDir() {
+		File mounts = new File("/proc/mounts");
+		List<String> paths = new ArrayList<String>();
+
+		if(mounts.exists()) {
+			try {
+				BufferedReader reader = new BufferedReader(
+						new FileReader(mounts));
+				try {
+					String text = null;
+					while((text = reader.readLine()) != null) {
+						Log.d(TAG, text);
+						if(text.startsWith("/dev/block/vold/")) {
+							String[] splits = text.split(" ");
+							Log.d(TAG, "len= " + splits.length);
+							if(splits.length > 2) {
+								Log.d(TAG, splits[1]);
+								paths.add(splits[1]);
+							}
+						}
+					}
+				}
+				finally{
+					reader.close();
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			Log.w(TAG, "File</proc/mounts> is not exists");
+		}
+		return paths;
 	}
 
 	private static int mFrameCount = 0;
