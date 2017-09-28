@@ -60,7 +60,6 @@ public class VideoPlayerActivity extends Activity implements
 	private static boolean USE_SW_ENCODER = false;
 	private static final boolean ENCODER_ONLY = false;
 	private static boolean isIPTV = true;
-
 	private VideoFormatInfo mVideoFormatInfo;
 	private VideoDeviceInputImpl mVideoInput;
 	private VideoDeviceOutputImpl mVideoOutput;
@@ -329,12 +328,12 @@ public class VideoPlayerActivity extends Activity implements
 					mEncoderCaptureButton.setText("Capturing..");
 					mEncoderCaptureFilename_ext = null;
 					mEncoderCaptureFilename = "/sdcard/encoder_capture.ts";
+					//mEncoderCaptureFilename_ext = "/storage/external_storage/sda1/Video/encoder_capture.ts";
 					List<String> sd_path = new ArrayList<String>();
 					sd_path = loadDir();
 					if(!sd_path.isEmpty()) {
 						mEncoderCaptureFilename_ext = sd_path.get(0);
 					}
-					//mEncoderCaptureFilename_ext = "/storage/external_storage/sda1/Video/encoder_capture.ts";
 
 					if(mEncoderCaptureFilename_ext != null) {
 						Log.e("TAG", "Exist SdCard");
@@ -575,7 +574,6 @@ public class VideoPlayerActivity extends Activity implements
                     Toast.LENGTH_SHORT).show();
             return;
         }
-		mStartStopButton.setText("Stop");
 		final AVTypes.VideoFmt[] fmts = VideoCapture.Instance()
 				.getSupportedFormats();
 		CharSequence[] videoResItems = new CharSequence[fmts.length];
@@ -614,7 +612,6 @@ public class VideoPlayerActivity extends Activity implements
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-		mStartStopButton.setText("Stop");
 		final AVTypes.VideoFmt[] fmts = VideoCapture.Instance()
 				.getSupportedFormats();
 		int index = 0;
@@ -682,6 +679,7 @@ public class VideoPlayerActivity extends Activity implements
 						mVideoResDialog.dismiss();
 					}
 				});
+		builder.setCancelable(true);
 		mVideoResDialog = builder.create();
 		mVideoResDialog.show();
 	}
@@ -727,6 +725,7 @@ public class VideoPlayerActivity extends Activity implements
 		mVideoInput.start();
 
 		mIsStarted = true;
+		mStartStopButton.setText("Stop");
 	}
 	private void startChatAudio()
 	{
