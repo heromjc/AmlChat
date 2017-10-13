@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaCodec;
+import android.media.MediaMuxer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ConditionVariable;
@@ -70,7 +71,7 @@ public class VideoPlayerActivity extends Activity implements
 	private boolean mDebug = false;
 
 	private boolean mEncoderCapturing = false;
-	private String mEncoderCaptureFilename = "/sdcard/encoder_capture.ts";
+	private String mEncoderCaptureFilename = "/sdcard/encoder_capture.mp4";
 	private String mEncoderCaptureFilename_ext = null;
 
 	private static String mKeep_mode_threshold = "/sys/class/thermal/thermal_zone0/keep_mode_threshold";
@@ -87,8 +88,6 @@ public class VideoPlayerActivity extends Activity implements
 	private String mScale_mode_Org = null;
 	private static String mScale_mode_val = "2";
 	private static String mCur_freq_val = "1";
-
-	private FileOutputStream mEncoderCaptureStream;
 
 	// resources
 	private Button mStartStopButton;
@@ -142,7 +141,7 @@ public class VideoPlayerActivity extends Activity implements
 	public static ConditionVariable sCv = new ConditionVariable();
 	private String video_avc = "video/avc";
 	private String video_hevc = "video/hevc";
-
+	private  MediaMuxer mMediaMuxer = null;
 
 	private Uri contentUri;
 	private int contentType;
@@ -163,15 +162,12 @@ public class VideoPlayerActivity extends Activity implements
 
 		mVideoInput = new VideoDeviceInputImpl();
 		mVideoInput.setCallback(new VideoCallback(true));
-
 		if (!ENCODER_ONLY)
 		{
 		mVideoOutput = new VideoDeviceOutputImpl();
 		mVideoOutput.setCallback(new VideoCallback(false));
 		}
-
 		mVideoBuffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
-
 		// either or, one of these next routines will feed the decoder.
 		mVideoInput.setEncodedFrameListener(this);
 		// runVideoThread()
@@ -232,10 +228,17 @@ public class VideoPlayerActivity extends Activity implements
 										int which)
 								{
 									// TODO Auto-generated method stub
+									/*
 									Intent exit = new Intent(Intent.ACTION_MAIN);
-									exit.addCategory(Intent.CATEGORY_HOME);
+									exit.addCategory(Intent.CATEGORY_ALTERNATIVE);
 									exit.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									startActivity(exit);
+									*/
+									if (mIsStarted)
+									{
+										stopVideo();
+										VideoCapture.Instance().closeCamera();
+									}
 									System.exit(0);
 								}
 							})
@@ -327,7 +330,7 @@ public class VideoPlayerActivity extends Activity implements
 				{
 					mEncoderCaptureButton.setText("Capturing..");
 					mEncoderCaptureFilename_ext = null;
-					mEncoderCaptureFilename = "/sdcard/encoder_capture.ts";
+					mEncoderCaptureFilename = "/sdcard/encoder_capture.mp4";
 					//mEncoderCaptureFilename_ext = "/storage/external_storage/sda1/Video/encoder_capture.ts";
 					List<String> sd_path = new ArrayList<String>();
 					sd_path = loadDir();
@@ -341,31 +344,22 @@ public class VideoPlayerActivity extends Activity implements
 						if(!ext_dir_video.exists()) {
 							ext_dir_video.mkdir();
 						}
-						mEncoderCaptureFilename_ext = mEncoderCaptureFilename_ext + "/Video/encoder_capture.ts";
+						mEncoderCaptureFilename_ext = mEncoderCaptureFilename_ext + "/Video/encoder_capture.mp4";
 						mEncoderCaptureFilename = mEncoderCaptureFilename_ext;
 					}
 					String text = "write file to " + mEncoderCaptureFilename;
+					try {
+						mMediaMuxer = new MediaMuxer(mEncoderCaptureFilename, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+					} catch (Exception e) {
+						Log.e(TAG, "create muxer fail!");
+					}
 					Toast.makeText(getApplicationContext(), text,
 							Toast.LENGTH_SHORT).show();
-					try {
-						mEncoderCaptureStream = new FileOutputStream(mEncoderCaptureFilename);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
 				}
 				else
 				{
 					mEncoderCaptureButton.setText("Start Encoder Capture");
 					String text = "Wrote log " + mEncoderCaptureFilename;
-					try
-					{
-						mEncoderCaptureStream.flush();
-						mEncoderCaptureStream.close();
-					} catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-					mEncoderCaptureStream = null;
 					Toast.makeText(getApplicationContext(), text,
 							Toast.LENGTH_SHORT).show();
 				}
@@ -503,27 +497,15 @@ public class VideoPlayerActivity extends Activity implements
 	{
 		if (mVideoInput.read(new ReadRequest(mVideoBuffer)) > 0)
 		{
-			if (mEncoderCapturing && mEncoderCaptureStream != null)
+/*			if (mEncoderCapturing)
 			{
 				mVideoBuffer.rewind();
-				try
-				{
-					if (mVideoBuffer.isDirect())
-					{
-						byte[] out = new byte[mVideoBuffer.remaining()];
-						mVideoBuffer.get(out);
-						mEncoderCaptureStream.write(out);
-					}
-					else
-					{
-						mEncoderCaptureStream.write(mVideoBuffer.array());
-					}
-				} catch (IOException e)
-				{
-					e.printStackTrace();
-				}
+						//byte[] out = new byte[mVideoBuffer.remaining()];
+						//mVideoBuffer.get(out);
+						mVideoInput.getMediaMuxer().writeSampleData(index, mVideoBuffer, info);
+						//mEncoderCaptureStream.write(out);
 			}
-
+*/
 			mVideoBuffer.rewind();
 			if(mVideoOutput.write(mVideoBuffer, info.presentationTimeUs,
 					((info.flags & MediaCodec.BUFFER_FLAG_SYNC_FRAME) != 0)) == 1) {
@@ -722,6 +704,10 @@ public class VideoPlayerActivity extends Activity implements
 		else
 			USE_SW_ENCODER = false;
 		mVideoInput.open(mVideoFormatInfo, USE_SW_ENCODER);
+		if(mEncoderCapturing) {
+			mVideoInput.setMediaMuxer(mMediaMuxer);
+		}
+		mVideoInput.setCaptureFlag(mEncoderCapturing);
 		mVideoInput.start();
 
 		mIsStarted = true;
