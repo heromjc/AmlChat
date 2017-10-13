@@ -23,6 +23,8 @@ import java.util.concurrent.BlockingQueue;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
+import android.media.MediaMuxer;
+
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -64,10 +66,14 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
     private EncodedFrameListener mEncodedFrameListener;
     private EncoderOptimizations mEncoderOptimizations = new EncoderOptimizations();
     private String video_hevc="video/hevc";
+    public MediaMuxer mMuxer;
     /* debug */
     private static final boolean PROFILE_VIDEO = false;
     private static final boolean DEBUG = false;
     private final String capture_filename = "/sdcard/capture.h264";
+    protected boolean mMuxerStarted = false;
+    private boolean isCapture = false;
+    protected int mTrackIndex;
 
     public interface EncodedFrameListener {
         public void onEncodedFrame(MediaCodec.BufferInfo bufferInfo);
@@ -210,6 +216,13 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
                 releaseEncodedFrames();
                 Log.i(TAG, "mEncodeMediaCodec.stop()");
                 mEncodeMediaCodec.stop();
+                if(mMuxer != null) {
+                    mMuxer.stop();
+                    mMuxer.release();
+                    mMuxer = null;
+                    isCapture = false;
+                    mMuxerStarted = false;
+                }
                 break;
             }
         }
@@ -442,6 +455,13 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
                         mEncodeOutputBuffer = mEncodeMediaCodec.getOutputBuffers();
                     } else if (index == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
                         MediaFormat format = mEncodeMediaCodec.getOutputFormat();
+                        if(isCapture) {
+                            mTrackIndex = mMuxer.addTrack(format);
+                            if(!mMuxerStarted) {
+                                mMuxer.start();
+                                mMuxerStarted = true;
+                            }
+                        }
                         if (DEBUG)
                             Log.i(TAG, "media format changed " + format);
                     } else if (index >= 0) {
@@ -449,13 +469,19 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
                           Log.i("VideoProfile", "    Encoder output, Encoder Timestamp = " + (bufferInfo.presentationTimeUs / 1000)
                             + ", System time = " + (System.nanoTime() / 1000000));
                         }
-
                         if (mVideoDeviceCb != null) {
                             mVideoDeviceCb.onFrameOut(bufferInfo.presentationTimeUs, bufferInfo.size);
                         }
-
+                        if (isCapture && !mMuxerStarted) {
+                            // muxer is not ready...this will prrograming failure.
+                            throw new RuntimeException("gatherEncodedFrames: muxer hasn't started");
+                        }
+                        final ByteBuffer encodedData = mEncodeOutputBuffer[index];
+                        if(isCapture) {
+                            mMuxer.writeSampleData(mTrackIndex, encodedData, bufferInfo);
+                        }
                         queueEncodedFrame(index, bufferInfo);
-                        writeEncodedFrameDebug(mEncodeOutputBuffer[index], bufferInfo.size);
+                        //writeEncodedFrameDebug(mEncodeOutputBuffer[index], bufferInfo.size);
                     }
                 }
                 isEncoderOutputStarted = false;
@@ -581,6 +607,15 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
             }
         }
         return 0;
+    }
+
+    public void setMediaMuxer(MediaMuxer muxer) {
+        mMuxer = muxer;
+    }
+
+
+    public void setCaptureFlag(boolean flag) {
+        isCapture = flag;
     }
 
     /* used for testing */
