@@ -42,14 +42,14 @@ import com.google.android.exoplayer.demo.DemoUtil;
 
 import com.amlogic.avpipe.AVTypes;
 import com.amlogic.avpipe.IVideoDevice;
-import com.amlogic.avpipe.LocalAudioLoopThread;
+//import com.amlogic.avpipe.LocalAudioLoopThread;
 
 import com.amlogic.avpipe.ReadRequest;
 import com.amlogic.avpipe.VideoCapture;
 import com.amlogic.avpipe.VideoDeviceInputImpl;
 import com.amlogic.avpipe.VideoDeviceOutputImpl;
 import com.amlogic.avpipe.VideoFormatInfo;
-import android.os.SystemProperties;
+//import android.os.SystemProperties;
 import android.app.FragmentManager;
 
 public class VideoPlayerActivity extends Activity implements
@@ -73,7 +73,7 @@ public class VideoPlayerActivity extends Activity implements
 	private boolean mEncoderCapturing = false;
 	private String mEncoderCaptureFilename = "/sdcard/encoder_capture.mp4";
 	private String mEncoderCaptureFilename_ext = null;
-
+/*
 	private static String mKeep_mode_threshold = "/sys/class/thermal/thermal_zone0/keep_mode_threshold";
 	private static String mTrip_point_0_temp = "/sys/class/thermal/thermal_zone0/trip_point_0_temp";
 	private static String mScaling_max_freq = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
@@ -88,7 +88,7 @@ public class VideoPlayerActivity extends Activity implements
 	private String mScale_mode_Org = null;
 	private static String mScale_mode_val = "2";
 	private static String mCur_freq_val = "1";
-
+*/
 	// resources
 	private Button mStartStopButton;
 	private Button mEncoderOptimizationsButton;
@@ -137,7 +137,7 @@ public class VideoPlayerActivity extends Activity implements
 	private int mSourceListSize = mSourceList.length;
 	private int mSourceIdx = 0;
 	private String mSource = mSourceList[mSourceIdx];
-	private LocalAudioLoopThread mAudioLoop;
+	//private LocalAudioLoopThread mAudioLoop;
 	public static ConditionVariable sCv = new ConditionVariable();
 	private String video_avc = "video/avc";
 	private String video_hevc = "video/hevc";
@@ -159,7 +159,12 @@ public class VideoPlayerActivity extends Activity implements
 		mRadioGroup=(RadioGroup)findViewById(R.id.rg);
 		mRadioButton1=(RadioButton)findViewById(R.id.rb1);
 		mRadioButton2=(RadioButton)findViewById(R.id.rb2);
-
+/*		final String mShowAvc= SystemProperties.get("amlchat.avc.enable");
+		if (!mShowAvc.equals("enable")) {
+			mRadioButton1.setVisibility(View.GONE);
+			mRadioButton1.setEnabled(false);
+		}
+*/
 		mVideoInput = new VideoDeviceInputImpl();
 		mVideoInput.setCallback(new VideoCallback(true));
 		if (!ENCODER_ONLY)
@@ -171,9 +176,9 @@ public class VideoPlayerActivity extends Activity implements
 		// either or, one of these next routines will feed the decoder.
 		mVideoInput.setEncodedFrameListener(this);
 		// runVideoThread()
-		SystemProperties.set("amlchat.status.enable", "disable");
+		//SystemProperties.set("amlchat.status.enable", "disable");
 		loadResources();
-		mAudioLoop = new LocalAudioLoopThread();
+		//mAudioLoop = new LocalAudioLoopThread();
 
 		sCv.close();
 	}
@@ -348,11 +353,6 @@ public class VideoPlayerActivity extends Activity implements
 						mEncoderCaptureFilename = mEncoderCaptureFilename_ext;
 					}
 					String text = "write file to " + mEncoderCaptureFilename;
-					try {
-						mMediaMuxer = new MediaMuxer(mEncoderCaptureFilename, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
-					} catch (Exception e) {
-						Log.e(TAG, "create muxer fail!");
-					}
 					Toast.makeText(getApplicationContext(), text,
 							Toast.LENGTH_SHORT).show();
 				}
@@ -425,7 +425,7 @@ public class VideoPlayerActivity extends Activity implements
 						mVideoFormatInfo.setMimeType(video_hevc);
 					}
 					stopVideo();
-					mAudioLoop.setRecording(false);
+					//mAudioLoop.setRecording(false);
 				}
 				else
 				{
@@ -434,6 +434,16 @@ public class VideoPlayerActivity extends Activity implements
 						mVideoFormatInfo.setMimeType(video_avc);
 					if (mRadioButton2.isChecked())
 						mVideoFormatInfo.setMimeType(video_hevc);
+					if(mEncoderCapturing) {
+						try {
+							mMediaMuxer = new MediaMuxer(mEncoderCaptureFilename, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+						} catch (Exception e) {
+							Log.e(TAG, "create muxer fail!");
+						}
+						String text = "write file to " + mEncoderCaptureFilename;
+						Toast.makeText(getApplicationContext(), text,
+								Toast.LENGTH_SHORT).show();
+					}
 					if(isIPTV)
 						showResolutionOptions_iptv();
 					else
@@ -474,25 +484,21 @@ public class VideoPlayerActivity extends Activity implements
 			Log.e(TAG,"can't write the " + path);
 		}
 	}
-/*
+
 	public int getPropBitrate(int w) {
 		int bitrate = 0;
-		if (w <= 512) {
-			bitrate = 1000000;
-		} else if (w <= 640) {
-			bitrate = 1500000;
-		} else if (w <= 960) {
-			bitrate = 2000000;
+		if (w <= 640) {
+			bitrate = 600000;
 		} else if (w <= 1280) {
-			bitrate = 3000000;
+			bitrate = 1000000;
 		} else if (w <= 1920) {
-			bitrate = 6000000;
+			bitrate = 1500000;
 		} else {
-			bitrate = 6000000;
+			bitrate = 2000000;
 		}
 		return bitrate;
 	}
-*/
+
 	public void onEncodedFrame(MediaCodec.BufferInfo info)
 	{
 		if (mVideoInput.read(new ReadRequest(mVideoBuffer)) > 0)
@@ -578,7 +584,7 @@ public class VideoPlayerActivity extends Activity implements
 						mVideoFormatInfo.setHeight(fmts[item].height);
 						//mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
 						startVideo();
-						startChatAudio();
+						//startChatAudio();
 						mVideoResDialog.dismiss();
 					}
 				});
@@ -655,9 +661,12 @@ public class VideoPlayerActivity extends Activity implements
 					{
 						mVideoFormatInfo.setWidth(fmts[index_eq[item]].width);
 						mVideoFormatInfo.setHeight(fmts[index_eq[item]].height);
-						//mVideoFormatInfo.setBitRate(getPropBitrate(fmts[item].width));
+						if(mVideoFormatInfo.getMimeType().equals("video/hevc"))
+							mVideoFormatInfo.setBitRate(1500000);
+						if(mVideoFormatInfo.getMimeType().equals("video/avc"))
+							mVideoFormatInfo.setBitRate(4000000);
 						startVideo();
-						startChatAudio();
+						//startChatAudio();
 						mVideoResDialog.dismiss();
 					}
 				});
@@ -673,7 +682,8 @@ public class VideoPlayerActivity extends Activity implements
 
 		startLatencyTracking();
 
-		if(isIPTV && (mVideoFormatInfo.getWidth() >= 1920)) {
+/*
+		if(isIPTV && (mVideoFormatInfo.getWidth() >= 1280)) {
 			mMaxTemp_Org = getString(mKeep_mode_threshold);
 			mMinTemp_Org = getString(mTrip_point_0_temp);
 			mScale_mode_Org = getString(mGpu_scale_mode);
@@ -684,10 +694,10 @@ public class VideoPlayerActivity extends Activity implements
 			setString(mTrip_point_0_temp, mSetMinTemp);
 			setString(mScaling_max_freq,mSetMaxFreq);
 			if(getString(mGpu_scale_mode).equals(mScale_mode_val)) {
-				setString(mGpu_cur_freq, mCur_freq_val);
+				//setString(mGpu_cur_freq, mCur_freq_val);
 			}
 		}
-
+*/
 		if (!ENCODER_ONLY)
 		{
 			mVideoOutput.setShowView(mDecodeSfc);
@@ -713,13 +723,13 @@ public class VideoPlayerActivity extends Activity implements
 		mIsStarted = true;
 		mStartStopButton.setText("Stop");
 	}
-	private void startChatAudio()
+/*	private void startChatAudio()
 	{
 		mAudioLoop.setRecording(true);
 		Log.d(TAG, "local audio loop started");
 		//mAudioLoop.start();
 	}
-
+*/
 	private void stopVideo()
 	{
 		mIsStarted = false;
@@ -735,24 +745,25 @@ public class VideoPlayerActivity extends Activity implements
 
 		mDecodeSfc.setVisibility(View.INVISIBLE);
 		mPreviewSfc.setVisibility(View.INVISIBLE);
-		if(isIPTV && (mVideoFormatInfo.getWidth() >= 1920)) {
+/*		if(isIPTV && (mVideoFormatInfo.getWidth() >= 1280)) {
 			setString(mKeep_mode_threshold, mMaxTemp_Org);
 			setString(mTrip_point_0_temp, mMinTemp_Org);
 			setString(mScaling_max_freq, mCpu_max_freq_Org);
 			setString(mGpu_scale_mode,mScale_mode_Org);
 		}
+*/
 	}
 
 	private void updateStats()
 	{
-		final String isShowStatus= SystemProperties.get("amlchat.status.enable");
+		//final String isShowStatus= SystemProperties.get("amlchat.status.enable");
 		runOnUiThread(new Runnable()
 		{
 			public void run()
 			{
 				mStatsFrame.removeAllViews();
 				if (mIsStarted) {
-					if (isShowStatus.equals("enable")) {
+					//if (isShowStatus.equals("enable")) {
 					String videoFormat = Integer.toString(mVideoFormatInfo
 							.getWidth())
 							+ "x"
@@ -791,7 +802,7 @@ public class VideoPlayerActivity extends Activity implements
 					addLineToStats("real_Time_BitrateEnc = " + Integer.toString(getBitrate()) + "Kb/s");
 					addLineToStats("Avg_BitrateEnc = " + Integer.toString(getBitrate_Avg()) + "Kb/s");
 				}
-				}
+				//}
 			}
 		});
 	}

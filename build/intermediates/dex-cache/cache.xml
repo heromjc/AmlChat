@@ -3,21 +3,13 @@
 
     <item
         is-multidex="false"
-        jar="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\src\main\libs\httpclient-4.2.5.jar"
+        jar="D:\Users\jiacheng.mei\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
         jumboMode="false"
+        min-sdk-version="25"
         optimize="true"
-        revision="25.0.2"
-        sha1="696cc4ae8aef94e82975da59e3209ca6ad8b17ed">
-        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\build\intermediates\pre-dexed\debug\httpclient-4.2.5_80fe8d2e567de611ab2467d676e472f039fe47ca.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\libs\exoplayerlib.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b6eceee7b6646f13f25acde4202d9eaf5c28ed2f">
-        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\build\intermediates\pre-dexed\debug\exoplayerlib_d4aecbe4356e3348aa37435bd7d3e94804f30efe.jar" />
+        revision="26.0.2"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\build\intermediates\transforms\preDex\release\3.jar" />
     </item>
     <item
         is-multidex="false"
@@ -27,6 +19,84 @@
         revision="25.0.2"
         sha1="023ee503b631f69511e335a061ea008f8da60f40">
         <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\build\intermediates\pre-dexed\debug\support-annotations-26.0.0-alpha1_6cbcb4dbdb4fb314e120128dca7f4509c41fdd45.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\src\main\libs\httpclient-4.2.5.jar"
+        jumboMode="false"
+        min-sdk-version="25"
+        optimize="true"
+        revision="26.0.2"
+        sha1="696cc4ae8aef94e82975da59e3209ca6ad8b17ed">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\build\intermediates\transforms\preDex\release\6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\libs\exoplayerlib.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b6eceee7b6646f13f25acde4202d9eaf5c28ed2f">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\build\intermediates\transforms\preDex\release\5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\src\main\libs\httpclient-4.2.5.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="696cc4ae8aef94e82975da59e3209ca6ad8b17ed">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\build\intermediates\transforms\preDex\release\2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\libs\exoplayerlib.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b6eceee7b6646f13f25acde4202d9eaf5c28ed2f">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\build\intermediates\transforms\preDex\release\1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\src\main\libs\httpclient-4.2.5.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="696cc4ae8aef94e82975da59e3209ca6ad8b17ed">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\build\intermediates\pre-dexed\debug\httpclient-4.2.5_80fe8d2e567de611ab2467d676e472f039fe47ca.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\src\main\libs\httpclient-4.2.5.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="696cc4ae8aef94e82975da59e3209ca6ad8b17ed">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\build\intermediates\transforms\preDex\release\6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\libs\exoplayerlib.jar"
+        jumboMode="false"
+        min-sdk-version="25"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b6eceee7b6646f13f25acde4202d9eaf5c28ed2f">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_final\amlchat1\amlChat\build\intermediates\transforms\preDex\release\5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\libs\exoplayerlib.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b6eceee7b6646f13f25acde4202d9eaf5c28ed2f">
+        <dex dex="C:\Users\jiacheng.mei\Desktop\amlchat_framerate2\amlchat1\amlChat\build\intermediates\pre-dexed\debug\exoplayerlib_d4aecbe4356e3348aa37435bd7d3e94804f30efe.jar" />
     </item>
 
 </items>

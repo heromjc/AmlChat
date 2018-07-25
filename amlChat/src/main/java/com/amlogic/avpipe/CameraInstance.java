@@ -163,8 +163,6 @@ public class CameraInstance {
 
     private long now() { return System.nanoTime() / 1000000; }
     public Camera getCamera() { return mCamera; }
-    public int getCameraID() { return mCameraID; }
-    public int getFacing() { return mFacing; }
     public boolean isPreviewing() { return mPreviewStarted; }
 
     private class CameraPreviewCallback implements Camera.PreviewCallback {

@@ -8,6 +8,8 @@
 
     <string name="video">Video</string>
 
+    <string name="Request_idr">idr</string>
+
     <string name="audio">Audio</string>
 
     <string name="text">Text</string>

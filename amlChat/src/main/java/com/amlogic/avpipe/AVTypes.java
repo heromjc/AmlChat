@@ -26,7 +26,7 @@ public class AVTypes {
 
     static public class EncoderOptimizations {
         public boolean encoder_bitrate_enable = false;
-        public int encoder_bitrate_value = 2000;
+        public int encoder_bitrate_value = 2000;  // KB
         public int encoder_framerate_value = 0;
         public int encoder_iframe_interval = -1;
         public boolean encoder_iframe_interval_enable = false;

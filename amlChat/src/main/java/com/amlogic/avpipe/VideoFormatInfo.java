@@ -41,7 +41,7 @@ public class VideoFormatInfo {
 	/**
 	 * key frame,default is 1 frame per 30 seconds
 	 */
-	private int iframeInterval = 30;
+	private int iframeInterval = 1;    //one i frame per iframeInterval seconds
 	private String mimeType = "video/hevc";
 	private int encodeColorFormat = MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar;
 

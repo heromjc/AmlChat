@@ -1,5 +1,4 @@
 apply plugin: 'java'
 
 dependencies {
-    compile files('C:/Users/jiacheng.mei/Desktop/amlchat2/httpclient-4.2.5/httpclient-4.2.5.jar')
 }

@@ -217,11 +217,11 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
                 Log.i(TAG, "mEncodeMediaCodec.stop()");
                 mEncodeMediaCodec.stop();
                 if(mMuxer != null) {
+                    isCapture = false;
+                    mMuxerStarted = false;
                     mMuxer.stop();
                     mMuxer.release();
                     mMuxer = null;
-                    isCapture = false;
-                    mMuxerStarted = false;
                 }
                 break;
             }
@@ -419,10 +419,10 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
                     }
                     if (mEncoderOptimizations.encoder_bitrate_enable && mEncoderOptimizations.encoder_bitrate_value != 0) {
                         mEncoderBitrateKbps = mEncoderOptimizations.encoder_bitrate_value;
-                    }
-                    if (mVideoFormatInfo.getBitRate() != (mEncoderBitrateKbps * 1000)) {
-                        setBitrate(mEncoderBitrateKbps);
-                        mVideoFormatInfo.setBitRate(mEncoderBitrateKbps * 1000);
+                        if (mVideoFormatInfo.getBitRate() != (mEncoderBitrateKbps * 1000)) {
+                            setBitrate(mEncoderBitrateKbps);
+                            mVideoFormatInfo.setBitRate(mEncoderBitrateKbps * 1000);
+                        }
                     }
                     if (mEncoderOptimizations.encoder_request_idr) {
                         requestIDRFrame();
@@ -612,7 +612,6 @@ public class VideoDeviceInputImpl implements IVideoDevice, VideoCapture.VideoEnc
     public void setMediaMuxer(MediaMuxer muxer) {
         mMuxer = muxer;
     }
-
 
     public void setCaptureFlag(boolean flag) {
         isCapture = flag;
